@@ -9,8 +9,9 @@
 **Author**: Ignacio Adrián Lerer  
 **Affiliation**: Independent Scholar, Buenos Aires  
 **Contact**: adrianlerer@gmail.com  
-**Version**: 1.0 (January 2025)  
-**SSRN**: [Link TBD]
+**Version**: 1.0.0 (January 2025)  
+**SSRN**: [Link TBD]  
+**Repository**: https://github.com/adrianlerer/ultraactivity-trap
 
 ---
 
