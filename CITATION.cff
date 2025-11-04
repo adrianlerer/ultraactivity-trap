@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+authors:
+  - family-names: "Lerer"
+    given-names: "Ignacio Adrián"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+title: "The Ultraactivity Trap: How Temporal Asymmetry Transforms Repeated Games into Terminal Betrayal"
+version: 1.0.0
+date-released: 2025-01-15
+url: "https://github.com/adrianlerer/ultraactivity-trap"
+repository-code: "https://github.com/adrianlerer/ultraactivity-trap"
+keywords:
+  - ultraactivity
+  - repeated games
+  - constitutional lock-in
+  - Argentina
+  - memetic evolution
+  - extended phenotypes
+  - stare decisis
+  - democratic exhaustion
+  - game theory
+  - institutional design
+license: MIT
+abstract: |
+  Political betrayal in repeated games is not cultural pathology—it is structural 
+  response to institutional architecture. When legal institutions exhibit ultraactivity 
+  (benefits captured through defection persist regardless of future cooperation), the 
+  shadow of the future collapses. Rational actors betray even in infinite games. 
+  Cooperation becomes impossible not because players are irrational but because 
+  institutional logic makes cooperation structurally dominated.
+  
+  Argentina demonstrates this mechanism in pure form: Constitutional Lock-in Index 
+  (CLI) of 0.87, sustained across 80 years, resisting 23 reform attempts, surviving 
+  ideological administrations ranging from military dictatorship to radical libertarianism. 
+  The ultraactivity trap has closed.
+  
+  United States demonstrates early-stage convergence: CLI rising from 0.33 (1980) 
+  to 0.41 (2024), projected 0.49 (2035). Not Argentine levels yet, but approaching 
+  the critical threshold (~0.50) where cooperation becomes structurally unstable.
