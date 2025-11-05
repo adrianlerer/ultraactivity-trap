@@ -890,15 +890,97 @@ But only if acted upon before crystallization completes.
 
 ## APPENDICES
 
-**Appendix A**: Formal Game-Theoretic Model [PLACEHOLDER - See separate file]
+Complete appendices and replication materials are available in the GitHub repository: https://github.com/adrianlerer/ultraactivity-trap
 
-**Appendix B**: CLI Operationalization Protocol [TO DEVELOP - See separate file]
+### Appendix A: Constitutional Lock-in Index (CLI) - Measurement Protocol
 
-**Appendix C**: Computational Methods Technical Documentation [PLACEHOLDER - See separate file]
+**Content**: Complete operationalization protocol for CLI, including:
+- Detailed scoring rubrics for four dimensions (Legislative, Judicial, Organizational, Federal)
+- Coding instructions with decision trees for ambiguous cases
+- Worked examples: Argentina, Chile, USA scoring procedures
+- Sensitivity analysis varying dimension weights
+- Validation against expert qualitative assessments
 
-**Appendix D**: Complete Case Coding [TO DEVELOP - See separate file]
+**Length**: 10 pages
 
-**Appendix E**: Replication Materials [TO DEVELOP - See separate file]
+**Location**: `/paper/appendices/appendix_a_cli_protocol.md`
+
+---
+
+### Appendix B: Complete Case Coding
+
+**Content**: Comprehensive coding of all reform attempts, including:
+
+**Argentina** (23 cases, 1991-2025):
+- Government, year, reform description
+- Legislative/judicial/organizational response
+- Reversal mechanism and timeline
+- Primary sources and documentation
+
+**Chile** (15 cases, 1990-2025):
+- Parallel structure to Argentina cases
+- Bidirectional reform coding
+- Tribunal Constitucional rulings
+- Sustainability outcomes
+
+**Brazil** (7 cases) and **Spain** (9 cases): Summary tables with key outcomes
+
+**Length**: 30 pages
+
+**Location**: `/paper/appendices/appendix_b_case_coding.md` and structured data in `/data`
+
+---
+
+### Replication Materials
+
+**Datasets** (CSV format, `/data` directory):
+- `argentina_reforms_coded.csv` - All 23 Argentine reform attempts
+- `chile_reforms_coded.csv` - All 15 Chilean reform attempts  
+- `cli_components.csv` - CLI scores by dimension and country-year
+- `historical_reforms_database.csv` - Extended temporal database
+
+**Documentation** (`/replication` directory):
+- `REPLICATION_GUIDE.md` - Step-by-step instructions
+- Variable codebooks
+- Data collection protocols
+
+**License**: Data licensed under CC BY 4.0. Code licensed under MIT License.
+
+---
+
+### Data Availability Statement
+
+All data used in this paper are publicly available at: https://github.com/adrianlerer/ultraactivity-trap
+
+**Persistent Archive**: Repository will be archived at Zenodo upon publication with permanent DOI.
+
+---
+
+### Acknowledgments
+
+This research builds on extensive literatures in comparative constitutional law, game theory, and institutional economics. 
+All errors and interpretations are my own responsibility.
+
+---
+
+### Funding
+
+This research received no external funding. The author declares no competing interests.
+
+---
+
+### Correspondence
+
+**Ignacio Adrián Lerer**  
+Independent Scholar  
+Buenos Aires, Argentina  
+Email: adrian@lerer.com.ar  
+GitHub: https://github.com/adrianlerer
+
+---
+
+**Version**: 1.0 (November 2025)  
+**Repository**: https://github.com/adrianlerer/ultraactivity-trap
 
 ---
 

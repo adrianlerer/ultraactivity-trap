@@ -47,6 +47,16 @@ We propose constitutional prohibition of ultraactivity as first-order democratic
 
 ---
 
+## Appendices (Available in Repository)
+
+- **Appendix A**: Constitutional Lock-in Index (CLI) - Measurement Protocol (10 pages)
+- **Appendix B**: Complete Case Coding (30 pages) - All reform attempts with detailed analysis
+- **Replication Materials**: Complete datasets, code, and documentation in `/data` and `/replication` directories
+
+**Note**: Technical appendices on formal game-theoretic models and computational methods will be developed in subsequent papers based on reviewer feedback.
+
+---
+
 ## Replication Materials
 
 - Complete datasets in `/data`
