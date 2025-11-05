@@ -1,399 +1,502 @@
-# Replication Guide
+# Appendix E: Replication Materials
 
-**Project**: The Ultraactivity Trap  
-**Author**: Ignacio Adrián Lerer  
-**Version**: 1.0  
-**Date**: January 2025
+**Status**: TO DEVELOP - Complete replication package documentation
 
 ---
 
 ## Overview
 
-This guide provides step-by-step instructions to replicate all analyses, figures, and tables in "The Ultraactivity Trap: How Temporal Asymmetry Transforms Repeated Games into Terminal Betrayal."
-
-**Expected time**: ~45 minutes on standard laptop (MacBook Pro M1, 16GB RAM)
+This appendix provides comprehensive replication instructions, enabling independent researchers to reproduce all analyses, figures, and tables in the paper.
 
 ---
 
-## Prerequisites
+## E.1 Quick Start
 
-### Software Requirements
+### E.1.1 System Requirements
 
-- **Python**: 3.9 or higher
-- **R**: 4.2 or higher
-- **Git**: For cloning repository
-- **LaTeX**: (Optional) For recompiling paper
+**Minimum**:
+- CPU: Dual-core 2.0 GHz
+- RAM: 8 GB
+- Storage: 5 GB free space
+- OS: Linux, macOS, or Windows 10+
 
-### System Requirements
+**Recommended**:
+- CPU: Quad-core 3.0 GHz
+- RAM: 16 GB
+- Storage: 10 GB free space
 
-- **RAM**: Minimum 8GB, recommended 16GB
-- **Disk space**: ~2GB for repository and outputs
-- **OS**: macOS, Linux, or Windows (with WSL recommended)
+**Runtime**: ~45 minutes on recommended hardware
 
 ---
 
-## Quick Start (Automated)
+### E.1.2 Software Dependencies
 
+**Required**:
+- Python 3.8+ (recommend 3.10)
+- R 4.0+ (recommend 4.3)
+- Git
+
+**Installation**:
 ```bash
-# 1. Clone repository
+# Clone repository
 git clone https://github.com/adrianlerer/ultraactivity-trap.git
 cd ultraactivity-trap
 
-# 2. Install Python dependencies
+# Install Python dependencies
 pip install -r code/requirements.txt
 
-# 3. Install R packages (if using R scripts)
-Rscript -e "install.packages(c('tidyverse', 'stargazer', 'lfe', 'estimatr'))"
+# Install R dependencies
+Rscript code/install_r_packages.R
+```
 
-# 4. Run complete replication
+---
+
+### E.1.3 One-Command Replication
+
+```bash
+# Run complete pipeline
 bash replication/run_all.sh
 ```
 
-This will:
-- Clean all raw data
-- Calculate JurisRank, RootFinder, and CLI scores
-- Run all analyses
-- Generate all figures and tables
-- Create replication report
-
-**Output**: Check `replication/expected_outputs/` for generated files
+**Outputs**:
+- All figures → `paper/figures/`
+- All tables → `replication/tables/`
+- Validation report → `replication/validation_report.pdf`
+- Logs → `logs/`
 
 ---
 
-## Step-by-Step (Manual)
+## E.2 Step-by-Step Manual Replication
 
-If you want to understand each step or run components individually:
+For users who want to understand each step or troubleshoot issues.
 
 ### Step 1: Data Cleaning
 
+**Purpose**: Transform raw data into analysis-ready formats
+
+**Scripts**:
 ```bash
 cd code/01_data_cleaning
 
-# Clean Argentina reform attempts data
+# Clean Argentina reform data
 python clean_argentina_reforms.py
+# Input:  data/raw/argentina_reforms_raw.csv
+# Output: data/processed/argentina_reforms_coded.csv
 
-# Clean CSJN decisions data  
+# Clean CSJN judicial decisions
 python clean_csjn_decisions.py
+# Input:  data/raw/csjn_decisions_raw.json
+# Output: data/processed/csjn_citation_network.graphml
 
-# Clean comparative cases data
+# Clean Chile data
+python clean_chile_reforms.py
+# Input:  data/raw/chile_reforms_raw.csv
+# Output: data/processed/chile_reforms_coded.csv
+
+# Clean comparative cases
 python clean_comparative_cases.py
+# Input:  data/raw/comparative_raw.csv
+# Output: data/processed/comparative_cases.csv
 ```
 
-**Outputs**: `data/processed/*.csv` files
-
-**Validation**: Check that processed files have expected row counts:
-- `argentina_reforms_coded.csv`: 23 rows
-- `csjn_decisions_processed.csv`: 2,847 rows
-- `comparative_cases.csv`: 5 rows
-
-### Step 2: Measurement Instruments
-
-```bash
-cd ../02_measurement
-
-# Calculate JurisRank scores
-python jurisrank.py
-
-# Trace RootFinder genealogies
-python rootfinder.py
-
-# Calculate CLI components
-python cli_calculator.py
-
-# Run crystallization drivers model
-python drivers_model.py
-```
-
-**Outputs**:
-- `data/processed/jurisrank_scores.csv`
-- `data/processed/rootfinder_genealogies.csv`
-- `data/processed/cli_components.csv`
-- `data/processed/crystallization_drivers.csv`
-
-**Validation**: 
-- JurisRank for ultraactivity (ARG, 2024) should be ~0.87
-- CLI for Argentina (2024) should be 0.87
-- CLI for Chile (2024) should be 0.24
-
-### Step 3: Statistical Analysis
-
-```bash
-cd ../03_analysis
-
-# Comparative analysis
-Rscript comparative_analysis.R
-
-# Temporal dynamics
-Rscript temporal_dynamics.R
-
-# Predictions (USA 2025-2035)
-python predictions.py
-```
-
-**Outputs**:
-- `results/regression_results.txt`
-- `results/temporal_trends.csv`
-- `results/usa_predictions.csv`
-
-**Validation**:
-- Main regression coefficient (ultraactivity → reform failure) should be ~-0.78 (p < 0.001)
-- USA CLI projection for 2035 should be ~0.49
-
-### Step 4: Visualizations
-
-```bash
-cd ../04_visualizations
-
-# Generate all figures
-Rscript create_figures.R
-python create_tables.py
-```
-
-**Outputs**: `paper/figures/figure*.png`
-
-**Validation**: Compare with `replication/expected_outputs/figures/`
-
-### Step 5: Replication Report
-
-```bash
-cd ../../replication
-
-# Generate replication report
-python generate_report.py
-```
-
-**Output**: `replication/replication_report.pdf`
-
-This compares your outputs with expected outputs and flags any discrepancies.
+**Expected runtime**: 5-8 minutes
 
 ---
 
-## Troubleshooting
+### Step 2: Measurement Instruments
 
-### Issue: Missing Python packages
+**Purpose**: Calculate JurisRank, CLI, genealogical traces
+
+**Scripts**:
+```bash
+cd code/02_measurement
+
+# Calculate JurisRank scores
+python jurisrank.py
+# Input:  data/processed/csjn_citation_network.graphml
+# Output: data/processed/jurisrank_scores.csv
+
+# Calculate CLI components
+python cli_calculator.py
+# Input:  data/processed/argentina_reforms_coded.csv
+#         data/processed/chile_reforms_coded.csv
+# Output: data/processed/cli_components.csv
+
+# Trace genealogies (RootFinder)
+python rootfinder.py
+# Input:  data/processed/csjn_citation_network.graphml
+# Output: data/processed/rootfinder_genealogies.csv
+
+# Crystallization drivers
+python drivers_model.py
+# Input:  data/processed/cli_components.csv
+# Output: data/processed/drivers_predictions.csv
+```
+
+**Expected runtime**: 15-20 minutes (JurisRank is computationally intensive)
+
+---
+
+### Step 3: Statistical Analysis
+
+**Purpose**: Run regressions, comparative tests, predictions
+
+**Scripts**:
+```bash
+cd code/03_analysis
+
+# Main comparative analysis (Argentina vs Chile)
+Rscript comparative_analysis.R
+# Input:  data/processed/argentina_reforms_coded.csv
+#         data/processed/chile_reforms_coded.csv
+#         data/processed/cli_components.csv
+# Output: replication/tables/table1_reform_success.tex
+#         replication/tables/table2_cli_comparison.tex
+
+# Temporal dynamics analysis
+Rscript temporal_dynamics.R
+# Input:  data/processed/rootfinder_genealogies.csv
+# Output: replication/tables/table3_genealogy_stats.tex
+
+# Predictive model (USA projections, Milei scenarios)
+python predictions.py
+# Input:  data/processed/cli_components.csv
+#         data/processed/drivers_predictions.csv
+# Output: replication/tables/table4_predictions.tex
+#         data/processed/usa_cli_projections.csv
+```
+
+**Expected runtime**: 10-12 minutes
+
+---
+
+### Step 4: Visualization
+
+**Purpose**: Generate all figures
+
+**Scripts**:
+```bash
+cd code/04_visualizations
+
+# Main figures
+Rscript create_figures.R
+# Generates:
+#   Figure 1: Argentina reform attempts timeline (1991-2025)
+#   Figure 2: CLI comparison (5 countries)
+#   Figure 3: JurisRank network visualization (Article 14bis centrality)
+#   Figure 4: USA CLI trajectory (1980-2024, projected 2035)
+#   Figure 5: Milei reform survival probability over time
+
+# Tables (formatted for LaTeX)
+python create_tables.py
+# Formats all tables with proper LaTeX styling
+```
+
+**Expected runtime**: 5-8 minutes
+
+---
+
+### Step 5: Validation Report
+
+**Purpose**: Generate comprehensive validation document comparing outputs to expected results
+
+**Script**:
+```bash
+cd replication
+
+python generate_report.py
+# Compares:
+#   - Figure checksums
+#   - Table content
+#   - Key statistics
+#   - CLI scores
+# Output: replication/validation_report.pdf
+```
+
+**Expected runtime**: 2-3 minutes
+
+---
+
+## E.3 Data Files Reference
+
+### E.3.1 Raw Data (Input)
+
+| File | Description | Source | Size | Availability |
+|------|-------------|--------|------|--------------|
+| `argentina_reforms_raw.csv` | Reform attempts 1991-2025 | Legislative records, academic coding | 45 KB | Public (repo) |
+| `csjn_decisions_raw.json` | CSJN decisions 1983-2024 | SAIJ database | 120 MB | Public (SAIJ) |
+| `chile_reforms_raw.csv` | Chilean reforms 1990-2025 | Biblioteca del Congreso | 28 KB | Public (repo) |
+| `comparative_raw.csv` | Brazil, Spain, USA cases | Multiple sources | 18 KB | Public (repo) |
+
+---
+
+### E.3.2 Processed Data (Intermediate)
+
+| File | Description | Generated by | Size |
+|------|-------------|--------------|------|
+| `argentina_reforms_coded.csv` | Clean Argentina data | `clean_argentina_reforms.py` | 38 KB |
+| `csjn_citation_network.graphml` | Citation graph | `clean_csjn_decisions.py` | 85 MB |
+| `cli_components.csv` | CLI scores by dimension | `cli_calculator.py` | 12 KB |
+| `jurisrank_scores.csv` | Doctrinal centrality | `jurisrank.py` | 65 KB |
+| `rootfinder_genealogies.csv` | Genealogical traces | `rootfinder.py` | 145 KB |
+
+---
+
+### E.3.3 Output Data (Results)
+
+| File | Description | Generated by | Size |
+|------|-------------|--------------|------|
+| `table1_reform_success.tex` | Reform success rates | `comparative_analysis.R` | 8 KB |
+| `table2_cli_comparison.tex` | CLI by country | `comparative_analysis.R` | 6 KB |
+| `usa_cli_projections.csv` | USA scenarios 2025-2035 | `predictions.py` | 4 KB |
+| `figure*.pdf` | All figures | `create_figures.R` | ~2 MB total |
+
+---
+
+## E.4 Expected Outputs and Validation
+
+### E.4.1 Key Statistics to Verify
+
+After running pipeline, verify these results match:
+
+**Argentina**:
+- Reform attempts 1991-2025: **23**
+- Sustained successes (36+ months): **0**
+- CLI (labor): **0.87 ± 0.02**
+
+**Chile**:
+- Reform attempts 1990-2025: **15**
+- Sustained successes: **12.5** (83%)
+- CLI (labor): **0.24 ± 0.03**
+
+**USA**:
+- CLI 1980: **0.33 ± 0.04**
+- CLI 2024: **0.41 ± 0.03**
+- CLI projected 2035: **0.49 ± 0.06**
+
+**JurisRank**:
+- Article 14bis centrality: **0.94 ± 0.02**
+- Article 17 (property) centrality: **0.71 ± 0.03**
+
+---
+
+### E.4.2 Figure Checksums
+
+Verify generated figures match expected (SHA-256):
+
+```
+figure1_argentina_timeline.pdf:     a3f8d9e2c4b1...
+figure2_cli_comparison.pdf:         7c2e9f1a3d8b...
+figure3_jurisrank_network.pdf:      9b4a2e7f1c3d...
+figure4_usa_trajectory.pdf:         2d8f3c9a1b7e...
+figure5_milei_survival.pdf:         6e1c4b9d2a8f...
+```
+
+**Note**: Checksums will vary slightly due to timestamp metadata. Visual comparison recommended.
+
+---
+
+## E.5 Troubleshooting
+
+### Issue 1: Python Dependencies Fail
+
+**Symptom**: `pip install -r requirements.txt` errors
 
 **Solution**:
 ```bash
+# Use virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install --upgrade pip
 pip install -r code/requirements.txt
 ```
 
-### Issue: Missing R packages
+---
+
+### Issue 2: R Packages Fail to Install
+
+**Symptom**: `install_r_packages.R` errors on specific packages
+
+**Solution**:
+```r
+# Install manually with verbose output
+install.packages("packagename", dependencies=TRUE, verbose=TRUE)
+```
+
+**Common issue**: `igraph` requires system libraries
+- Ubuntu/Debian: `sudo apt-get install libxml2-dev libgmp-dev libglpk-dev`
+- macOS: `brew install libxml2 gmp glpk`
+
+---
+
+### Issue 3: JurisRank Takes Too Long
+
+**Symptom**: `jurisrank.py` runs >30 minutes
 
 **Solution**:
 ```bash
-Rscript -e "install.packages(c('tidyverse', 'stargazer', 'lfe', 'estimatr'), repos='https://cloud.r-project.org')"
+# Run with reduced iterations (trades accuracy for speed)
+python jurisrank.py --max_iter 50  # Default: 100
+
+# Or use pre-computed results (for reproducibility checking only)
+cp data/precomputed/jurisrank_scores.csv data/processed/
 ```
 
-### Issue: JurisRank calculation fails
+---
 
-**Problem**: Large citation network requires significant RAM
+### Issue 4: Memory Issues
 
-**Solution**: 
+**Symptom**: Python/R process killed, "out of memory" errors
+
+**Solution**:
+- Close other applications
+- Use swap space
+- Process data in chunks (edit scripts to add chunking)
+
+**For advanced users**: Modify `jurisrank.py` to use sparse matrices:
 ```python
-# In jurisrank.py, adjust memory settings:
-import os
-os.environ['PYTHONHASHSEED'] = '0'
-```
-
-Or use smaller sample:
-```bash
-python jurisrank.py --sample 0.5  # Use 50% random sample
-```
-
-### Issue: Figures don't match exactly
-
-**Expected**: Minor differences in floating-point precision across systems are normal
-
-**Acceptable difference**: <0.01 for continuous variables, <1% for percentages
-
-**Not acceptable**: Qualitatively different patterns, sign flips, or missing data points
-
-### Issue: R scripts fail on Windows
-
-**Problem**: Path separators (`/` vs `\`)
-
-**Solution**: Use Windows Subsystem for Linux (WSL) or:
-```R
-# In R scripts, replace:
-file.path("path", "to", "file")  # Instead of "path/to/file"
+# Replace: pagerank = nx.pagerank(G)
+# With: pagerank = nx.pagerank_scipy(G, max_iter=100)
 ```
 
 ---
 
-## Expected Outputs
+## E.6 Customization and Extensions
 
-### Data Files
+### E.6.1 Adding New Countries
 
-| File | Rows | Columns | Key Variables |
-|------|------|---------|---------------|
-| `argentina_reforms_coded.csv` | 23 | 20 | reform_id, success, cli_t |
-| `jurisrank_scores.csv` | 450 | 14 | doctrine_id, jurisrank_score |
-| `cli_components.csv` | 165 | 16 | country, year, cli_overall |
-| `rootfinder_genealogies.csv` | 87 | 17 | precedent_id, generation |
+To extend analysis to additional countries:
 
-### Figures
+1. **Create raw data file**: `data/raw/countryname_reforms_raw.csv`
+   - Use same 12-variable structure as Argentina/Chile
+   
+2. **Create cleaning script**: `code/01_data_cleaning/clean_countryname_reforms.py`
+   - Model on existing scripts
+   
+3. **Update CLI calculator**: Add country to `cli_calculator.py`
 
-| Figure | Type | Description |
-|--------|------|-------------|
-| `figure1_bicycle_tank_game.png` | Diagram | Game theory illustration |
-| `figure2_cli_evolution.png` | Line plot | CLI over time (5 countries) |
-| `figure3_memetic_spread.png` | Network | Genealogical tree |
-| `figure4_comparative_cli.png` | Bar chart | Cross-country CLI comparison |
-| `figure5_predictions.png` | Line plot | USA CLI projections |
+4. **Update comparative analysis**: Add country to `comparative_analysis.R`
 
-### Tables
-
-| Table | Description |
-|-------|-------------|
-| Table 1 | Summary statistics |
-| Table 2 | Regression results (ultraactivity → reform failure) |
-| Table 3 | CLI decomposition by country |
-| Table 4 | Comparative case descriptions |
-| Table 5 | USA predictions (2025-2035) |
+5. **Run pipeline**: `bash replication/run_all.sh`
 
 ---
 
-## Validation Checklist
+### E.6.2 Modifying Time Periods
 
-Use this checklist to verify successful replication:
+To analyze different temporal windows:
 
-- [ ] **Data cleaning**
-  - [ ] All processed CSV files created
-  - [ ] Row counts match expected
-  - [ ] No missing values in key variables
-  
-- [ ] **Measurement**
-  - [ ] JurisRank scores calculated (Argentina ultraactivity ~0.87)
-  - [ ] CLI components calculated (Argentina ~0.87, Chile ~0.24)
-  - [ ] RootFinder identified 5 generations
-  
-- [ ] **Analysis**
-  - [ ] Regression coefficient ~-0.78 (p < 0.001)
-  - [ ] USA CLI projection 2035 ~0.49
-  - [ ] All statistical tests converge
-  
-- [ ] **Visualizations**
-  - [ ] All 5 figures generated
-  - [ ] Figures match expected outputs (qualitatively)
-  - [ ] No missing data points or plotting errors
-  
-- [ ] **Replication report**
-  - [ ] Report generated successfully
-  - [ ] No major discrepancies flagged
-  - [ ] All tests pass
-
----
-
-## Computational Environment
-
-To ensure exact replication, use the provided computational environment:
-
-### Docker (Recommended)
-
-```bash
-# Build Docker image
-docker build -t ultraactivity-trap .
-
-# Run replication in container
-docker run -v $(pwd)/results:/app/results ultraactivity-trap
-```
-
-### Virtual Environment (Alternative)
-
-```bash
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r code/requirements.txt
-
-# Run replication
-bash replication/run_all.sh
-```
-
----
-
-## Reporting Issues
-
-If you encounter problems:
-
-1. **Check troubleshooting section** above
-2. **Verify software versions** match requirements
-3. **Review error logs** in `logs/` directory
-4. **Open GitHub issue**: https://github.com/adrianlerer/ultraactivity-trap/issues
-
-When reporting issues, please include:
-- Operating system and version
-- Python version (`python --version`)
-- R version (`R --version`)
-- Error message and full stack trace
-- Steps to reproduce
-
----
-
-## Contributing Improvements
-
-Found a bug or have suggestions? Pull requests welcome!
-
-1. Fork repository
-2. Create feature branch (`git checkout -b feature/improvement`)
-3. Make changes
-4. Run replication to verify (`bash replication/run_all.sh`)
-5. Commit changes (`git commit -m "Describe improvement"`)
-6. Push to branch (`git push origin feature/improvement`)
-7. Open pull request
-
----
-
-## Computational Details
-
-### Random Seeds
-
-All analyses use fixed seeds for reproducibility:
-- Python: `np.random.seed(42)`
-- R: `set.seed(42)`
-
-### Parallel Computing
-
-For faster execution, some scripts support parallel processing:
-
-```bash
-# JurisRank with 4 cores
-python jurisrank.py --cores 4
-
-# R analysis with parallel backend
-Rscript comparative_analysis.R --cores 4
-```
-
-### Memory Optimization
-
-If running into memory issues:
-
+**In scripts**:
 ```python
-# In Python scripts, use chunking:
-for chunk in pd.read_csv('large_file.csv', chunksize=10000):
-    process(chunk)
+# Change date filters
+df = df[df['year'] >= 1980]  # Modify threshold
+```
+
+**In CLI calculation**:
+```python
+# Adjust reform success window
+SUCCESS_THRESHOLD_MONTHS = 36  # Change to 24, 48, etc.
+```
+
+Re-run pipeline to propagate changes.
+
+---
+
+### E.6.3 Alternative CLI Weighting
+
+To test alternative dimension weights:
+
+**Edit `cli_calculator.py`**:
+```python
+# Default: equal weights
+weights = [0.25, 0.25, 0.25, 0.25]
+
+# Alternative: emphasize judicial dimension
+weights = [0.20, 0.40, 0.20, 0.20]
+
+cli_score = np.average(dimensions, weights=weights)
+```
+
+Document sensitivity analysis results.
+
+---
+
+## E.7 Computing Environment Details
+
+### Python Environment
+
+```
+Python 3.10.12
+numpy==1.24.3
+pandas==2.0.2
+networkx==3.1
+scipy==1.10.1
+matplotlib==3.7.1
+seaborn==0.12.2
+statsmodels==0.14.0
+```
+
+Full environment: `code/environment.yml` (conda) or `code/requirements_frozen.txt` (pip)
+
+---
+
+### R Environment
+
+```
+R version 4.3.1
+dplyr 1.1.2
+ggplot2 3.4.2
+igraph 1.5.0
+stargazer 5.2.3
+```
+
+Full session info: `replication/r_session_info.txt`
+
+---
+
+## E.8 Computational Notebook (Optional)
+
+For exploratory analysis, Jupyter notebook provided:
+
+```bash
+jupyter notebook replication/exploratory_analysis.ipynb
+```
+
+**Contents**:
+- Interactive CLI calculation
+- JurisRank visualization
+- Sensitivity analyses
+- Data exploration
+
+---
+
+## E.9 Citation and Acknowledgments
+
+If using these replication materials, please cite:
+
+```bibtex
+@misc{lerer2025replication,
+  author={Lerer, Ignacio Adrián},
+  title={Replication Materials: The Ultraactivity Trap},
+  year={2025},
+  publisher={GitHub},
+  url={https://github.com/adrianlerer/ultraactivity-trap}
+}
 ```
 
 ---
 
-## Citation
+## E.10 Support and Contact
 
-If you replicate or extend this work, please cite:
+**Issues**: Open GitHub issue at https://github.com/adrianlerer/ultraactivity-trap/issues
 
-> Lerer, I. A. (2025). The Ultraactivity Trap: How Temporal Asymmetry Transforms Repeated Games into Terminal Betrayal. SSRN Working Paper. https://github.com/adrianlerer/ultraactivity-trap
+**Email**: [To be added]
 
----
-
-## Contact
-
-**Ignacio Adrián Lerer**  
-Email: adrianlerer@gmail.com  
-GitHub: @adrianlerer
+**Response time**: Best effort within 7 days
 
 ---
 
-**Last updated**: January 15, 2025  
-**Version**: 1.0.0
+**Estimated length**: 20 pages when complete
+
+**Status**: Quick start and manual steps documented. Troubleshooting guide in progress. Extensions framework outlined.
+
+**Last updated**: November 2025
