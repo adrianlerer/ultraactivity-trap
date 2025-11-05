@@ -56,6 +56,7 @@ We propose constitutional prohibition of ultraactivity as first-order democratic
 ---
 
 ## Citation
+
 ```bibtex
 @techreport{lerer2025ultraactivity,
   title={The Ultraactivity Trap: How Temporal Asymmetry Transforms Repeated Games into Terminal Betrayal},
