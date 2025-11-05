@@ -1,0 +1,6 @@
+reform_id,year,president,party,reform_type,legislative_instrument,ultraactivity_target,cgt_opposition,judicial_challenge,judicial_outcome,implementation_duration,final_outcome
+AR-001,1991,Menem,Peronist,Labor flexibility,Law 24.013,No,Negotiation,Yes,Partially invalidated,48,Partial
+AR-002,1995,Menem,Peronist,Further flexibility,Law 24.465,No,Obstruction,Yes,Partially invalidated,24,Failure
+AR-003,1998,Menem,Peronist,Comprehensive reform,Law 25.013,No,Obstruction,Yes,Partially invalidated,18,Failure
+# TO POPULATE: Add remaining 20 reforms (AR-004 through AR-023)
+# Most recent: AR-023,2024,Milei,Anti-Peronist,Comprehensive deregulation,DNU 70/2023 + Ley Bases,Yes,Militant,Yes,Pending,Ongoing,Pending

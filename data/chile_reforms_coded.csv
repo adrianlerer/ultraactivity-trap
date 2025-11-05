@@ -1,0 +1,8 @@
+reform_id,year,president,party,reform_type,legislative_instrument,ultraactivity_target,CUT_response,TC_challenge,judicial_outcome,implementation_duration,final_outcome
+CL-001,1990,Aylwin,Concertacion,Pro-worker restoration,Law 19.010,N/A,Support,No,N/A,300+,Success
+CL-002,2001,Lagos,Concertacion,Subcontracting regulation,Law 20.123,N/A,Mixed,No,N/A,240+,Success
+CL-003,2016,Bachelet,Concertacion,Youth employment,Law 20.940,N/A,Support,No,N/A,96+,Success
+CL-004,2017,Bachelet,Concertacion,Multi-employer bargaining,Law 20.940,N/A,Support,Yes,Upheld,84+,Success
+CL-005,2023,Boric,Left coalition,40-hour workweek,Law 21.561,N/A,Support,No,N/A,18+,Success
+# TO POPULATE: Add remaining 10 reforms (CL-006 through CL-015)
+# Include both pro-worker and pro-flexibility reforms to demonstrate bidirectionality
